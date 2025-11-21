@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeneBot - Genetics Chatbot & Note Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🧬 GeneBot - Genetics Chatbot & Note Manager</h1>
+            <p>Your AI assistant for genetics concepts with integrated note-taking</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Chat Section -->
+            <div class="chat-section">
+                <h2>💬 Chat with GeneBot</h2>
+                <div class="chat-container">
+                    <div id="chat-messages" class="chat-messages">
+                        <div class="message bot-message">
+                            <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?
+                        </div>
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="user-input" placeholder="Ask about genetics (e.g., What is DNA?)" maxlength="500">
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                    <div class="suggestions">
+                        <strong>Try asking:</strong>
+                        <span class="suggestion" onclick="setSuggestion('What is DNA?')">What is DNA?</span>
+                        <span class="suggestion" onclick="setSuggestion('Explain protein synthesis')">Explain protein synthesis</span>
+                        <span class="suggestion" onclick="setSuggestion('What is a gene mutation?')">What is a gene mutation?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="notes-section">
+                <h2>📝 Your Genetics Notes</h2>
+                
+                <!-- Add Note Form -->
+                <div class="add-note-form">
+                    <h3>Add New Note</h3>
+                    <input type="text" id="note-title" placeholder="Note Title" maxlength="100">
+                    <textarea id="note-content" placeholder="Note Content" maxlength="2000"></textarea>
+                    <input type="text" id="note-category" placeholder="Category (e.g., DNA, RNA, Mutations)" maxlength="50">
+                    <button onclick="addNote()">Save Note</button>
+                </div>
+
+                <!-- Search Notes -->
+                <div class="search-notes">
+                    <input type="text" id="search-query" placeholder="Search notes..." maxlength="100">
+                    <button onclick="searchNotes()">Search</button>
+                    <button onclick="clearSearch()">Clear</button>
+                </div>
+
+                <!-- Notes List -->
+                <div id="notes-list" class="notes-list">
+                    <!-- Notes will be loaded here -->
+                </div>
+
+                <!-- Statistics -->
+                <div id="stats" class="stats">
+                    <!-- Stats will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
