@@ -231,7 +231,7 @@ header p {
 
 .note-header {
     display: flex;
-    justify-content: between;
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
 }
@@ -304,5 +304,9 @@ header p {
     
     header h1 {
         font-size: 2em;
+    }
+    
+    .chat-messages {
+        height: 250px;
     }
 }
