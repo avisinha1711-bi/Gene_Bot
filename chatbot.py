@@ -73,7 +73,7 @@ class GeneticsChatbot:
         """Generate response based on user input patterns."""
         # Check for greetings
         if any(word in user_input for word in ['hello', 'hi', 'hey', 'greetings']):
-            return "Hello! I'm your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?"
+            return "Hello! I'm GeneBot, your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?"
         
         # Check for thanks
         if any(word in user_input for word in ['thank', 'thanks', 'appreciate']):
@@ -109,13 +109,3 @@ class GeneticsChatbot:
         
         # Default response for unknown queries
         return "I'm not sure I understand your genetics question. I can help explain concepts like DNA, RNA, genes, mutations, protein synthesis, inheritance patterns, and cellular division. Could you try rephrasing your question?"
-    
-    def save_conversation_history(self, filename="conversation_history.json"):
-        """Save conversation history to a file."""
-        try:
-            with open(filename, 'w', encoding='utf-8') as f:
-                json.dump(self.conversation_history, f, indent=2)
-            return True
-        except Exception as e:
-            print(f"Error saving conversation history: {e}")
-            return False
