@@ -1,0 +1,7 @@
+# Genetics Chatbot Requirements
+# No external dependencies required for basic functionality
+
+# Optional: For future enhancements
+# flask>=2.0.0
+# numpy>=1.21.0
+# scikit-learn>=1.0.0
