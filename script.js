@@ -1,66 +1,86 @@
-class GeneticsChatInterface {
+class ChatBot {
     constructor() {
-        this.conversationHistory = [];
-        this.feedbackSystem = new FeedbackSystem();
+        this.chatHistory = [];
+        this.apiBase = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000' 
+            : 'https://your-backend-url.herokuapp.com';
     }
 
     async sendMessage(message) {
-        // Add user message to chat
-        this.addMessageToChat('user', message);
-        
-        // Send to backend
-        const response = await this.fetchBotResponse(message);
-        this.addMessageToChat('bot', response.answer);
-        
-        // Store conversation for learning
-        this.conversationHistory.push({
-            user: message,
-            bot: response.answer,
-            timestamp: new Date()
-        });
+        try {
+            const response = await fetch(`${this.apiBase}/chat`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+
+            const data = await response.json();
+            
+            if (data.status === 'success') {
+                return data.response;
+            } else {
+                return 'Sorry, I encountered an error. Please try again.';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            return 'Connection error. Please check if the server is running.';
+        }
     }
 
-    async fetchBotResponse(message) {
-        const response = await fetch('/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message: message,
-                history: this.conversationHistory.slice(-5) // Last 5 messages
-            })
-        });
-        return await response.json();
+    // UI interaction methods
+    async handleUserInput() {
+        const userInput = document.getElementById('user-input').value;
+        if (!userInput.trim()) return;
+
+        this.addMessage('user', userInput);
+        document.getElementById('user-input').value = '';
+
+        // Show typing indicator
+        this.showTypingIndicator();
+
+        const botResponse = await this.sendMessage(userInput);
+        
+        this.hideTypingIndicator();
+        this.addMessage('bot', botResponse);
     }
 
-    provideFeedback(messageId, isPositive) {
-        this.feedbackSystem.recordFeedback(messageId, isPositive);
-        
-        // Send feedback to backend for learning
-        fetch('/feedback', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                message_id: messageId,
-                feedback: isPositive ? 'positive' : 'negative'
-            })
-        });
+    addMessage(sender, message) {
+        const chatBox = document.getElementById('chat-box');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        messageDiv.textContent = message;
+        chatBox.appendChild(messageDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    showTypingIndicator() {
+        const chatBox = document.getElementById('chat-box');
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typing-indicator';
+        typingDiv.className = 'message bot-message typing';
+        typingDiv.textContent = 'Typing...';
+        chatBox.appendChild(typingDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    hideTypingIndicator() {
+        const typingDiv = document.getElementById('typing-indicator');
+        if (typingDiv) {
+            typingDiv.remove();
+        }
     }
 }
 
-class FeedbackSystem {
-    constructor() {
-        this.feedbackHistory = [];
-    }
-
-    recordFeedback(messageId, isPositive) {
-        this.feedbackHistory.push({
-            messageId,
-            isPositive,
-            timestamp: new Date()
-        });
-    }
-}
+// Initialize chatbot when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    window.chatBot = new ChatBot();
+    
+    // Enter key support
+    document.getElementById('user-input').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            window.chatBot.handleUserInput();
+        }
+    });
+});
