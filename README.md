@@ -1,4 +1,4 @@
-        # GeneBot
+# GeneBot
 "Chat for Understanding Genetics."
 
 
