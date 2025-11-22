@@ -1,3 +1,3 @@
-# 🧬 Genetics Chatbot & Note Manager
+# 🧬 Genetics Chatbot
 
 Chatbot with a language called Biology.
