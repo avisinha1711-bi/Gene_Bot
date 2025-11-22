@@ -13,69 +13,52 @@
         }
 
         body {
-            background: #0f0f0f;
+            background: #0a0a0a;
             color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+            padding: 0;
         }
 
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            height: 85vh;
-        }
-
-        header {
-            background: #151515;
-            color: white;
-            padding: 20px 30px;
+        .header {
+            padding: 40px 20px 20px;
             text-align: center;
-            border-bottom: 1px solid #2a2a2a;
+            background: #0a0a0a;
         }
 
-        header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
+        .header h1 {
+            font-size: 2.5rem;
             color: #4a9eff;
             font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        header p {
-            font-size: 0.9rem;
-            opacity: 0.7;
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.8;
         }
 
-        .chat-container {
-            flex: 1;
+        .chat-interface {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            height: calc(100vh - 150px);
             display: flex;
             flex-direction: column;
-            overflow: hidden;
         }
 
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 20px 0;
             overflow-y: auto;
-            background: #0f0f0f;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .message {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 12px;
+            max-width: 70%;
+            padding: 16px 20px;
             line-height: 1.5;
             animation: fadeIn 0.3s ease;
         }
@@ -86,48 +69,49 @@
         }
 
         .user-message {
-            background: #2a2a2a;
+            background: #1a1a1a;
             color: white;
             align-self: flex-end;
+            border-radius: 18px 18px 4px 18px;
         }
 
         .bot-message {
-            background: #1e1e1e;
+            background: #151515;
             align-self: flex-start;
+            border-radius: 18px 18px 18px 4px;
         }
 
         .message strong {
             display: block;
-            margin-bottom: 5px;
-            font-size: 0.85rem;
+            margin-bottom: 6px;
+            font-size: 0.9rem;
             opacity: 0.8;
         }
 
-        .chat-input-container {
-            padding: 15px;
-            background: #1a1a1a;
-            border-top: 1px solid #2a2a2a;
+        .input-area {
+            padding: 20px 0;
         }
 
         .chat-input {
             display: flex;
-            gap: 10px;
+            gap: 12px;
+            align-items: center;
         }
 
         .chat-input input {
             flex: 1;
-            padding: 12px 16px;
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 6px;
+            padding: 16px 20px;
+            background: #1a1a1a;
+            border: none;
+            border-radius: 25px;
             color: #e0e0e0;
-            font-size: 0.95rem;
+            font-size: 1rem;
             outline: none;
             transition: all 0.2s;
         }
 
         .chat-input input:focus {
-            border-color: #4a9eff;
+            background: #1f1f1f;
         }
 
         .chat-input input::placeholder {
@@ -138,10 +122,11 @@
             background: #4a9eff;
             color: white;
             border: none;
-            border-radius: 6px;
-            padding: 12px 20px;
+            border-radius: 25px;
+            padding: 16px 30px;
             cursor: pointer;
             font-weight: 500;
+            font-size: 1rem;
             transition: all 0.2s;
         }
 
@@ -150,45 +135,44 @@
         }
 
         .suggestions {
-            padding: 12px 15px;
-            background: #1a1a1a;
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            border-top: 1px solid #2a2a2a;
+            gap: 10px;
+            padding: 15px 0;
+            justify-content: center;
         }
 
         .suggestion {
-            background: #2a2a2a;
-            border: 1px solid #3a3a3a;
-            border-radius: 16px;
-            padding: 6px 12px;
-            font-size: 0.85rem;
+            background: #1a1a1a;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 18px;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .suggestion:hover {
-            background: #3a3a3a;
+            background: #2a2a2a;
         }
 
         .typing-indicator {
             display: none;
-            padding: 12px 16px;
+            padding: 16px 20px;
             align-self: flex-start;
-            background: #1e1e1e;
-            border-radius: 12px;
-            margin-bottom: 15px;
+            background: #151515;
+            border-radius: 18px 18px 18px 4px;
+            margin-bottom: 20px;
         }
 
         .typing-dots {
             display: flex;
-            gap: 4px;
+            gap: 5px;
         }
 
         .typing-dots span {
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: #4a9eff;
             animation: typing 1.4s infinite ease-in-out;
@@ -200,7 +184,7 @@
 
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-3px); opacity: 1; }
+            30% { transform: translateY(-4px); opacity: 1; }
         }
 
         /* Scrollbar styling */
@@ -209,7 +193,7 @@
         }
 
         .chat-messages::-webkit-scrollbar-track {
-            background: #1a1a1a;
+            background: transparent;
         }
 
         .chat-messages::-webkit-scrollbar-thumb {
@@ -219,71 +203,85 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
-            .container {
-                height: 90vh;
+            .header {
+                padding: 30px 15px 15px;
             }
             
-            header {
-                padding: 15px;
-            }
-            
-            header h1 {
-                font-size: 1.5rem;
+            .header h1 {
+                font-size: 2rem;
             }
             
             .message {
-                max-width: 90%;
+                max-width: 85%;
+            }
+            
+            .chat-interface {
+                padding: 0 15px 30px;
+                height: calc(100vh - 120px);
+            }
+            
+            .chat-input {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .chat-input button {
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
-            body {
-                padding: 10px;
+            .header h1 {
+                font-size: 1.8rem;
             }
             
-            header h1 {
-                font-size: 1.3rem;
+            .header p {
+                font-size: 1rem;
             }
             
             .suggestions {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .suggestion {
+                width: 100%;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>GeneBot</h1>
-            <p>Your AI assistant for genetics concepts</p>
-        </header>
+    <div class="header">
+        <h1>GeneBot</h1>
+        <p>Your AI assistant for genetics concepts</p>
+    </div>
 
-        <div class="chat-container">
-            <div id="chat-messages" class="chat-messages">
-                <div class="message bot-message">
-                    <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?
-                </div>
+    <div class="chat-interface">
+        <div id="chat-messages" class="chat-messages">
+            <div class="message bot-message">
+                <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?
             </div>
-            
-            <div class="typing-indicator" id="typing-indicator">
-                <div class="typing-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+        </div>
+        
+        <div class="typing-indicator" id="typing-indicator">
+            <div class="typing-dots">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-            
-            <div class="suggestions">
-                <span class="suggestion" onclick="setSuggestion('What is DNA?')">What is DNA?</span>
-                <span class="suggestion" onclick="setSuggestion('Explain protein synthesis')">Explain protein synthesis</span>
-                <span class="suggestion" onclick="setSuggestion('What is a gene mutation?')">What is a gene mutation?</span>
-            </div>
-            
-            <div class="chat-input-container">
-                <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Ask about genetics..." maxlength="500">
-                    <button onclick="sendMessage()">Send</button>
-                </div>
+        </div>
+        
+        <div class="suggestions">
+            <span class="suggestion" onclick="setSuggestion('What is DNA?')">What is DNA?</span>
+            <span class="suggestion" onclick="setSuggestion('Explain protein synthesis')">Explain protein synthesis</span>
+            <span class="suggestion" onclick="setSuggestion('What is a gene mutation?')">What is a gene mutation?</span>
+        </div>
+        
+        <div class="input-area">
+            <div class="chat-input">
+                <input type="text" id="user-input" placeholder="Ask about genetics..." maxlength="500">
+                <button onclick="sendMessage()">Send</button>
             </div>
         </div>
     </div>
@@ -344,7 +342,7 @@
                 typingIndicator.style.display = 'none';
                 const response = generateBotResponse(message);
                 addMessageToChat('bot', response);
-            }, 800 + Math.random() * 800); // Random delay between 0.8-1.6 seconds
+            }, 800 + Math.random() * 800);
         }
 
         function generateBotResponse(userInput) {
