@@ -3,67 +3,286 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeneBot - Genetics Chatbot & Note Manager</title>
-    <link rel="stylesheet" href="style.css">
+    <title>GeneBot - Genetics Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0f0f0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 85vh;
+        }
+
+        header {
+            background: #151515;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #4a9eff;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #0f0f0f;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            background: #2a2a2a;
+            color: white;
+            align-self: flex-end;
+        }
+
+        .bot-message {
+            background: #1e1e1e;
+            align-self: flex-start;
+        }
+
+        .message strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .chat-input-container {
+            padding: 15px;
+            background: #1a1a1a;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .chat-input input:focus {
+            border-color: #4a9eff;
+        }
+
+        .chat-input input::placeholder {
+            color: #666;
+        }
+
+        .chat-input button {
+            background: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .chat-input button:hover {
+            background: #3a8eef;
+        }
+
+        .suggestions {
+            padding: 12px 15px;
+            background: #1a1a1a;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            border-top: 1px solid #2a2a2a;
+        }
+
+        .suggestion {
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggestion:hover {
+            background: #3a3a3a;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            align-self: flex-start;
+            background: #1e1e1e;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #4a9eff;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: 0s; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-3px); opacity: 1; }
+        }
+
+        /* Scrollbar styling */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #4a9eff;
+            border-radius: 3px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                height: 90vh;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.3rem;
+            }
+            
+            .suggestions {
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🧬 GeneBot - Genetics Chatbot & Note Manager</h1>
-            <p>Your AI assistant for genetics concepts with integrated note-taking</p>
+            <h1>GeneBot</h1>
+            <p>Your AI assistant for genetics concepts</p>
         </header>
 
-        <div class="main-content">
-            <!-- Chat Section -->
-            <div class="chat-section">
-                <h2>💬 Chat with GeneBot</h2>
-                <div class="chat-container">
-                    <div id="chat-messages" class="chat-messages">
-                        <div class="message bot-message">
-                            <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?
-                        </div>
-                    </div>
-                    <div class="chat-input">
-                        <input type="text" id="user-input" placeholder="Ask about genetics (e.g., What is DNA?)" maxlength="500">
-                        <button onclick="sendMessage()">Send</button>
-                    </div>
-                    <div class="suggestions">
-                        <strong>Try asking:</strong>
-                        <span class="suggestion" onclick="setSuggestion('What is DNA?')">What is DNA?</span>
-                        <span class="suggestion" onclick="setSuggestion('Explain protein synthesis')">Explain protein synthesis</span>
-                        <span class="suggestion" onclick="setSuggestion('What is a gene mutation?')">What is a gene mutation?</span>
-                    </div>
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot-message">
+                    <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I can help you understand DNA, RNA, genes, mutations, and other genetics concepts. What would you like to know?
                 </div>
             </div>
-
-            <!-- Notes Section -->
-            <div class="notes-section">
-                <h2>📝 Your Genetics Notes</h2>
-                
-                <!-- Add Note Form -->
-                <div class="add-note-form">
-                    <h3>Add New Note</h3>
-                    <input type="text" id="note-title" placeholder="Note Title" maxlength="100">
-                    <textarea id="note-content" placeholder="Note Content" maxlength="2000"></textarea>
-                    <input type="text" id="note-category" placeholder="Category (e.g., DNA, RNA, Mutations)" maxlength="50">
-                    <button onclick="addNote()">Save Note</button>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-
-                <!-- Search Notes -->
-                <div class="search-notes">
-                    <input type="text" id="search-query" placeholder="Search notes..." maxlength="100">
-                    <button onclick="searchNotes()">Search</button>
-                    <button onclick="clearSearch()">Clear</button>
-                </div>
-
-                <!-- Notes List -->
-                <div id="notes-list" class="notes-list">
-                    <!-- Notes will be loaded here -->
-                </div>
-
-                <!-- Statistics -->
-                <div id="stats" class="stats">
-                    <!-- Stats will be loaded here -->
+            </div>
+            
+            <div class="suggestions">
+                <span class="suggestion" onclick="setSuggestion('What is DNA?')">What is DNA?</span>
+                <span class="suggestion" onclick="setSuggestion('Explain protein synthesis')">Explain protein synthesis</span>
+                <span class="suggestion" onclick="setSuggestion('What is a gene mutation?')">What is a gene mutation?</span>
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="chat-input">
+                    <input type="text" id="user-input" placeholder="Ask about genetics..." maxlength="500">
+                    <button onclick="sendMessage()">Send</button>
                 </div>
             </div>
         </div>
@@ -92,28 +311,13 @@
         };
 
         // ===============================
-        // GLOBAL VARIABLES
-        // ===============================
-        let currentNotes = [];
-
-        // ===============================
         // INITIALIZATION
         // ===============================
         document.addEventListener('DOMContentLoaded', function() {
-            loadNotes();
-            loadStats();
-            
             // Add Enter key support for chat
             document.getElementById('user-input').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') {
                     sendMessage();
-                }
-            });
-            
-            // Add Enter key support for note title
-            document.getElementById('note-title').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('note-content').focus();
                 }
             });
         });
@@ -131,11 +335,16 @@
             addMessageToChat('user', message);
             userInput.value = '';
             
-            // Generate bot response
-            const response = generateBotResponse(message);
+            // Show typing indicator
+            const typingIndicator = document.getElementById('typing-indicator');
+            typingIndicator.style.display = 'block';
+            
+            // Generate bot response after a short delay
             setTimeout(() => {
+                typingIndicator.style.display = 'none';
+                const response = generateBotResponse(message);
                 addMessageToChat('bot', response);
-            }, 500);
+            }, 800 + Math.random() * 800); // Random delay between 0.8-1.6 seconds
         }
 
         function generateBotResponse(userInput) {
@@ -211,153 +420,8 @@
         }
 
         // ===============================
-        // NOTES FUNCTIONALITY
-        // ===============================
-        function loadNotes() {
-            const savedNotes = localStorage.getItem('geneticsNotes');
-            if (savedNotes) {
-                currentNotes = JSON.parse(savedNotes);
-            } else {
-                currentNotes = [];
-            }
-            displayNotes(currentNotes);
-        }
-
-        function saveNotes() {
-            localStorage.setItem('geneticsNotes', JSON.stringify(currentNotes));
-        }
-
-        function displayNotes(notes) {
-            const notesList = document.getElementById('notes-list');
-            
-            if (notes.length === 0) {
-                notesList.innerHTML = '<p>No notes yet. Start by adding some notes above!</p>';
-                return;
-            }
-            
-            notesList.innerHTML = notes.map(note => `
-                <div class="note-item">
-                    <div class="note-header">
-                        <div class="note-title">${escapeHtml(note.title)}</div>
-                        <div class="note-category">${escapeHtml(note.category)}</div>
-                    </div>
-                    <div class="note-content">${escapeHtml(note.content)}</div>
-                    <div class="note-footer">
-                        <span>${note.timestamp}</span>
-                        <button class="delete-note" onclick="deleteNote('${note.id}')">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function addNote() {
-            const title = document.getElementById('note-title').value.trim();
-            const content = document.getElementById('note-content').value.trim();
-            const category = document.getElementById('note-category').value.trim() || 'general';
-            
-            if (!title || !content) {
-                alert('Please enter both title and content for the note.');
-                return;
-            }
-            
-            const newNote = {
-                id: generateId(),
-                title: title,
-                content: content,
-                category: category,
-                timestamp: new Date().toLocaleString()
-            };
-            
-            currentNotes.unshift(newNote);
-            saveNotes();
-            
-            // Clear form
-            document.getElementById('note-title').value = '';
-            document.getElementById('note-content').value = '';
-            document.getElementById('note-category').value = '';
-            
-            // Update display
-            displayNotes(currentNotes);
-            loadStats();
-        }
-
-        function searchNotes() {
-            const query = document.getElementById('search-query').value.trim().toLowerCase();
-            
-            if (!query) {
-                displayNotes(currentNotes);
-                return;
-            }
-            
-            const filteredNotes = currentNotes.filter(note => 
-                note.title.toLowerCase().includes(query) ||
-                note.content.toLowerCase().includes(query) ||
-                note.category.toLowerCase().includes(query)
-            );
-            
-            displayNotes(filteredNotes);
-        }
-
-        function clearSearch() {
-            document.getElementById('search-query').value = '';
-            displayNotes(currentNotes);
-        }
-
-        function deleteNote(noteId) {
-            if (!confirm('Are you sure you want to delete this note?')) {
-                return;
-            }
-            
-            currentNotes = currentNotes.filter(note => note.id !== noteId);
-            saveNotes();
-            displayNotes(currentNotes);
-            loadStats();
-        }
-
-        function loadStats() {
-            const stats = {
-                total_notes: currentNotes.length,
-                categories: [],
-                category_counts: {}
-            };
-            
-            // Calculate categories
-            currentNotes.forEach(note => {
-                if (!stats.categories.includes(note.category)) {
-                    stats.categories.push(note.category);
-                    stats.category_counts[note.category] = 1;
-                } else {
-                    stats.category_counts[note.category]++;
-                }
-            });
-            
-            displayStats(stats);
-        }
-
-        function displayStats(stats) {
-            const statsDiv = document.getElementById('stats');
-            
-            let statsHTML = '<h3>📊 Note Statistics</h3>';
-            statsHTML += `<div class="stat-item"><span>Total Notes:</span><span>${stats.total_notes}</span></div>`;
-            
-            if (stats.categories.length > 0) {
-                statsHTML += '<div class="stat-item"><strong>Categories:</strong><span></span></div>';
-                stats.categories.forEach(category => {
-                    const count = stats.category_counts[category] || 0;
-                    statsHTML += `<div class="stat-item"><span>• ${escapeHtml(category)}:</span><span>${count}</span></div>`;
-                });
-            }
-            
-            statsDiv.innerHTML = statsHTML;
-        }
-
-        // ===============================
         // UTILITY FUNCTIONS
         // ===============================
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-
         function escapeHtml(unsafe) {
             if (!unsafe) return '';
             return unsafe
