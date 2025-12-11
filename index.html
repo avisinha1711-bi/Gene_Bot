@@ -22,6 +22,131 @@
             flex-direction: column;
         }
 
+        /* Login Page Styles */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+
+        .login-box {
+            background: #151515;
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid #2a2a2a;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            font-size: 2rem;
+            color: #4a9eff;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 10px;
+            color: #e0e0e0;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .answer-input:focus {
+            border-color: #4a9eff;
+        }
+
+        .answer-input::placeholder {
+            color: #666;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: #4a9eff;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background: #3a8eef;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 500;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .success-message {
+            background: rgba(74, 222, 128, 0.1);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .error-message {
+            background: rgba(248, 113, 113, 0.1);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .info-message {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+        }
+
+        /* Chat Interface Styles (Initially Hidden) */
+        .chat-interface {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         .header {
             padding: 25px 20px 20px;
             background: #0a0a0a;
@@ -39,15 +164,6 @@
         .header p {
             font-size: 1rem;
             opacity: 0.8;
-        }
-
-        .chat-interface {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            max-width: 100%;
-            margin: 0;
-            padding: 0;
         }
 
         .chat-messages {
@@ -202,6 +318,11 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
+            .login-box {
+                padding: 30px 25px;
+                margin: 15px;
+            }
+            
             .header {
                 padding: 20px 15px 15px;
             }
@@ -224,6 +345,18 @@
         }
 
         @media (max-width: 480px) {
+            .login-box {
+                padding: 25px 20px;
+            }
+            
+            .login-header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .question-text {
+                font-size: 1rem;
+            }
+            
             .header h1 {
                 font-size: 1.6rem;
             }
@@ -245,41 +378,204 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>GeneBot</h1>
-        <p>Your AI assistant for genetics concepts</p>
+    <!-- Login Page (Initially Visible) -->
+    <div id="login-container" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h1>GeneBot Access</h1>
+                <p>Answer the biology/chemistry question to access the genetics chatbot</p>
+            </div>
+            
+            <div class="question-container">
+                <div id="question-text" class="question-text">
+                    <!-- Question will be inserted here -->
+                </div>
+                <input type="text" 
+                       id="answer-input" 
+                       class="answer-input" 
+                       placeholder="Enter your answer..."
+                       autocomplete="off">
+            </div>
+            
+            <button id="submit-btn" class="submit-btn">Submit Answer</button>
+            
+            <div id="message-container" style="display: none;">
+                <!-- Messages will be inserted here -->
+            </div>
+        </div>
     </div>
 
-    <div class="chat-interface">
-        <div id="chat-messages" class="chat-messages">
-            <div class="message bot-message">
-                <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I am being trained in Genetics.
-            </div>
+    <!-- Chat Interface (Initially Hidden) -->
+    <div id="chat-interface" class="chat-interface">
+        <div class="header">
+            <h1>GeneBot</h1>
+            <p>Your AI assistant for genetics concepts</p>
         </div>
-        
-        <div class="typing-indicator" id="typing-indicator">
-            <div class="typing-dots">
-                <span></span>
-                <span></span>
-                <span></span>
+
+        <div class="chat-interface">
+            <div id="chat-messages" class="chat-messages">
+                <div class="message bot-message">
+                    <strong>GeneBot:</strong> Hello! I'm your genetics assistant. I am being trained in Genetics.
+                </div>
             </div>
-        </div>
-        
-        <div class="input-area">
-            <div class="chat-input-container">
-                <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Ask about genetics..." maxlength="500">
-                    <button class="send-button" onclick="sendMessage()">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
-                        </svg>
-                    </button>
+            
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="chat-input-container">
+                    <div class="chat-input">
+                        <input type="text" id="user-input" placeholder="Ask about genetics..." maxlength="500">
+                        <button class="send-button" onclick="sendMessage()">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
+        // ===============================
+        // LOGIN QUESTIONS & ANSWERS
+        // ===============================
+        const questions = [
+            {
+                question: "Adenine Pairs with ?",
+                answer: "Thymine",
+                hint: "Think about DNA base pairing rules (A pairs with...)"
+            },
+            {
+                question: "Guanine has ______ H-Bonds.",
+                answer: "3",
+                hint: "Guanine forms three hydrogen bonds with its complementary base"
+            },
+            {
+                question: "cDNA don't have Introns or Exons?",
+                answer: "Introns",
+                hint: "cDNA is complementary DNA synthesized from mRNA, which has already had introns removed"
+            },
+            {
+                question: "In dsDNA adenine % is 20% then Cytosine+Thymine % is?",
+                answer: "50%",
+                hint: "Remember Chargaff's rules: A=T and G=C, total percentage is 100%"
+            },
+            {
+                question: "Who is more Thermolabile RNA or DNA?",
+                answer: "RNA",
+                hint: "RNA has a 2'-OH group that makes it more susceptible to hydrolysis at high temperatures"
+            }
+        ];
+
+        // ===============================
+        // INITIALIZATION
+        // ===============================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show random question on login page
+            const randomIndex = Math.floor(Math.random() * questions.length);
+            const selectedQuestion = questions[randomIndex];
+            document.getElementById('question-text').textContent = selectedQuestion.question;
+            
+            // Store correct answer for validation
+            document.getElementById('question-text').dataset.correctAnswer = selectedQuestion.answer;
+            document.getElementById('question-text').dataset.questionHint = selectedQuestion.hint;
+            
+            // Setup submit button event listener
+            document.getElementById('submit-btn').addEventListener('click', validateAnswer);
+            
+            // Setup Enter key for answer input
+            document.getElementById('answer-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    validateAnswer();
+                }
+            });
+            
+            // Focus on answer input
+            document.getElementById('answer-input').focus();
+        });
+
+        // ===============================
+        // ANSWER VALIDATION
+        // ===============================
+        function validateAnswer() {
+            const userAnswer = document.getElementById('answer-input').value.trim();
+            const correctAnswer = document.getElementById('question-text').dataset.correctAnswer;
+            const hint = document.getElementById('question-text').dataset.questionHint;
+            const messageContainer = document.getElementById('message-container');
+            
+            // Clear previous messages
+            messageContainer.innerHTML = '';
+            messageContainer.style.display = 'none';
+            
+            if (!userAnswer) {
+                showMessage('Please enter an answer', 'error');
+                return;
+            }
+            
+            // Normalize answers for comparison (case-insensitive, remove spaces/punctuation)
+            const normalizedUserAnswer = userAnswer.toLowerCase().replace(/[^a-z0-9%]/g, '');
+            const normalizedCorrectAnswer = correctAnswer.toLowerCase().replace(/[^a-z0-9%]/g, '');
+            
+            if (normalizedUserAnswer === normalizedCorrectAnswer) {
+                // Correct answer - show success and grant access
+                showMessage('Correct! Access granted. Loading GeneBot...', 'success');
+                
+                // Hide login and show chat after delay
+                setTimeout(() => {
+                    document.getElementById('login-container').style.display = 'none';
+                    document.getElementById('chat-interface').style.display = 'flex';
+                    
+                    // Initialize chat functionality
+                    initializeChat();
+                }, 1500);
+            } else {
+                // Wrong answer - show error with hint
+                showMessage(`Access denied. Wrong answer. Hint: ${hint}`, 'error');
+                
+                // Clear input and focus
+                document.getElementById('answer-input').value = '';
+                document.getElementById('answer-input').focus();
+            }
+        }
+
+        function showMessage(text, type) {
+            const messageContainer = document.getElementById('message-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            messageDiv.textContent = text;
+            messageContainer.appendChild(messageDiv);
+            messageContainer.style.display = 'block';
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageContainer.style.display = 'none';
+                }, 3000);
+            }
+        }
+
+        // ===============================
+        // CHAT FUNCTIONALITY (Only initialized after successful login)
+        // ===============================
+        function initializeChat() {
+            // Add Enter key support for chat
+            document.getElementById('user-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            // Focus on chat input
+            document.getElementById('user-input').focus();
+        }
+
         // ===============================
         // GENETICS KNOWLEDGE BASE
         // ===============================
@@ -301,21 +597,6 @@
             "meiosis": "Meiosis is a special type of cell division that produces gametes (sperm and egg cells) with half the number of chromosomes of the parent cell."
         };
 
-        // ===============================
-        // INITIALIZATION
-        // ===============================
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add Enter key support for chat
-            document.getElementById('user-input').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    sendMessage();
-                }
-            });
-        });
-
-        // ===============================
-        // CHAT FUNCTIONALITY
-        // ===============================
         function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
