@@ -6,6 +6,10 @@
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Docker](https://img.shields.io/badge/docker-ready-blue)
 
+
+
+<img width="643" height="195" alt="Screenshot 2025-11-22 124745" src="https://github.com/user-attachments/assets/9b57c0ee-32f1-4269-b95f-2263ba2284d3" />
+
 **GeneBot** is a production-ready genetics chatbot powered by Mistral-7B with Retrieval-Augmented Generation (RAG), advanced NLP processing, and multi-database integration for expert-level genetics and molecular biology assistance.
 
 ## ✨ Features
@@ -41,7 +45,6 @@
  
 
  
-<img width="643" height="195" alt="Screenshot 2025-11-22 124745" src="https://github.com/user-attachments/assets/9b57c0ee-32f1-4269-b95f-2263ba2284d3" />
 
 
 <img width="1024" height="1024" alt="Gemini_Generated_Image_yufnxkyufnxkyufn" src="https://github.com/user-attachments/assets/62f6584d-0c83-432b-ad62-b39dbc9c996a" />
